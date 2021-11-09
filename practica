@@ -1,0 +1,129 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        public static void Main(string[] args)
+        {
+            country c1 = new country("Россия","Москва");
+            country c2 = new country("ЮАР", "Претория");
+            country c3 = new country("Индия", "Дели");
+
+            List<country> counlist = new List<country>();
+            counlist.Add(c1);
+            counlist.Add(c2);
+            counlist.Add(c3);
+
+            List<hotel> hotlist = new List<hotel>();
+            hotlist.Add(new hotel("Регина", 5, "Хороший", c1));
+            hotlist.Add(new hotel("Астро", 4, "Райский уголок", c2));
+            hotlist.Add(new hotel("Черная пантера", 3, "Отдохните у нас", c3));
+
+            Console.WriteLine("Выберите пункт:");
+            Console.WriteLine("1)Добавить страну");
+            Console.WriteLine("2)Добавить отель");
+            Console.WriteLine("3)Вывести все страны");
+            Console.WriteLine("4)Вывести все отели");
+            int x;
+            x = Convert.ToInt32(Console.ReadLine());
+            if (x == 1)
+            {
+                Console.WriteLine("Введите страну");
+                string str = Console.ReadLine();
+                Console.WriteLine("Введите столицу");
+                string st = Console.ReadLine();
+                counlist.Add(new country(str, st));
+                Console.WriteLine("Страна и столица добавлены");
+            }
+
+            if (x == 2)
+            {
+                string newn, newd, newcoun, newst;
+                int newstars;
+                country selcoun = null;
+                Console.WriteLine("Введите название отеля");
+                newn = Console.ReadLine();
+                Console.WriteLine("Сколько звезд?");
+                newstars = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Опишите отель");
+                newd = Console.ReadLine();
+                Console.WriteLine("Введите страну");
+                newcoun = Console.ReadLine();
+                Console.WriteLine("Введите столицу");
+                newst = Console.ReadLine();
+                foreach (country c in counlist)
+                {
+                    if (newcoun == c.name)
+                    {
+                        selcoun = c;
+                        Console.WriteLine("Такая страна есть, отель не добавлен");
+                        break;
+                    }
+                }
+                if (selcoun == null)
+                {
+                    country four = new country(newcoun, newst);
+                    counlist.Add(four);
+                    hotlist.Add(new hotel(newn, newstars, newd, four));
+                    Console.WriteLine("Отель добавлен");
+                }
+            }
+
+            if (x == 3)
+            {
+                Console.WriteLine("Страны:");
+                for (int i = 0; i < hotlist.Count; i++)
+                {
+                    Console.WriteLine(counlist[i].name);
+                }
+            }
+
+            if (x == 4)
+            {
+                Console.WriteLine("Отели:");
+                for (int i = 0; i < hotlist.Count; i++)
+                {
+                    Console.WriteLine("Имя: " + hotlist[i].imya);
+                    Console.WriteLine("Звезд: " + hotlist[i].stars);
+                    Console.WriteLine("Описание: " + hotlist[i].descrip);
+                    Console.WriteLine("Страна: " + counlist[i].name);
+                    Console.WriteLine();
+                }
+            }
+        }
+    }
+
+    class hotel
+    {
+        public string imya;
+        public int stars;
+        public string descrip;
+        public country location;
+        public hotel(string imya, int stars, string descrip, country location)
+        {
+            this.imya = imya;
+            this.stars = stars;
+            this.descrip = descrip;
+            this.location = location;
+        }
+        public hotel()
+        { }
+    }
+
+    class country
+    {
+        public string name;
+        public string capital;
+        public country(string name, string capital)
+        {
+            this.name = name;
+            this.capital = capital;
+        }
+    }
+
+}
